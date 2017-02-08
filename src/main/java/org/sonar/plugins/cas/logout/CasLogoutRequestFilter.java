@@ -19,10 +19,11 @@
  */
 package org.sonar.plugins.cas.logout;
 
+import java.util.Map;
+
+import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.sonar.api.config.Settings;
 import org.sonar.plugins.cas.util.AbstractCasFilter;
-
-import java.util.Map;
 
 /**
  * This filter will handle logout request coming from CAS
@@ -32,7 +33,7 @@ import java.util.Map;
 public class CasLogoutRequestFilter extends AbstractCasFilter {
 
   public CasLogoutRequestFilter(final Settings pSettings) {
-    super(pSettings, new CasSonarSingleSignOutFilter());
+    super(pSettings, new SingleSignOutFilter());
   }
 
   @Override

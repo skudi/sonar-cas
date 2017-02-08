@@ -19,6 +19,10 @@
  */
 package org.sonar.plugins.cas;
 
+import static org.fest.assertions.Assertions.assertThat;
+
+import java.util.List;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -28,12 +32,7 @@ import org.sonar.plugins.cas.cas1.Cas1AuthenticationFilter;
 import org.sonar.plugins.cas.cas2.Cas2AuthenticationFilter;
 import org.sonar.plugins.cas.logout.CasLogoutRequestFilter;
 import org.sonar.plugins.cas.logout.SonarLogoutRequestFilter;
-import org.sonar.plugins.cas.saml11.Saml11AuthenticationFilter;
 import org.sonar.plugins.cas.util.CasPluginConstants;
-
-import java.util.List;
-
-import static org.fest.assertions.Assertions.assertThat;
 
 public class CasPluginTest implements CasPluginConstants {
 
@@ -64,19 +63,6 @@ public class CasPluginTest implements CasPluginConstants {
     assertThat(extensions).hasSize(3);
     assertThat(extensions).doesNotHaveDuplicates();
     assertThat(extensions).contains(Cas1AuthenticationFilter.class);
-  }
-
-  @Test
-  public void enable_saml11_extensions() {
-    Settings settings = new Settings()
-      .setProperty(PROPERTY_SECURITY_REALM, CasSecurityRealm.KEY)
-      .setProperty(PROPERTY_CREATE_USERS, "true")
-      .setProperty(PROPERTY_PROTOCOL, PROTOCOL_SAML11);
-    List<ServerExtension> extensions = (List<ServerExtension>) new CasPlugin.CasExtensions(settings).provide();
-
-    assertThat(extensions).hasSize(3);
-    assertThat(extensions).doesNotHaveDuplicates();
-    assertThat(extensions).contains(Saml11AuthenticationFilter.class);
   }
 
   @Test

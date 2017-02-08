@@ -20,10 +20,8 @@
 
 package org.sonar.plugins.cas;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.ExtensionProvider;
 import org.sonar.api.ServerExtension;
@@ -35,11 +33,12 @@ import org.sonar.plugins.cas.cas2.Cas2AuthenticationFilter;
 import org.sonar.plugins.cas.cas2.Cas2ValidationFilter;
 import org.sonar.plugins.cas.logout.CasLogoutRequestFilter;
 import org.sonar.plugins.cas.logout.SonarLogoutRequestFilter;
-import org.sonar.plugins.cas.saml11.Saml11AuthenticationFilter;
-import org.sonar.plugins.cas.saml11.Saml11ValidationFilter;
 import org.sonar.plugins.cas.util.CasPluginConstants;
 
-import java.util.List;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 public final class CasPlugin extends SonarPlugin {
 
@@ -76,10 +75,9 @@ public final class CasPlugin extends SonarPlugin {
           extensions.add(Cas2AuthenticationFilter.class);
           extensions.add(Cas2ValidationFilter.class);
         } else if (PROTOCOL_SAML11.equals(protocol)) {
-          extensions.add(Saml11AuthenticationFilter.class);
-          extensions.add(Saml11ValidationFilter.class);
+          throw new IllegalStateException("Usupported CAS protocol: " + protocol + ". Valid values are: cas1, cas2.");
         } else {
-          throw new IllegalStateException("Unknown CAS protocol: " + protocol + ". Valid values are: cas1, cas2 or saml11.");
+          throw new IllegalStateException("Unknown CAS protocol: " + protocol + ". Valid values are: cas1, cas2.");
         }
 
       }
